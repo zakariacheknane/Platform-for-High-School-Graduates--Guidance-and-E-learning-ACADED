@@ -1,0 +1,840 @@
+ show.blade.php
+ 
+ 
+ 
+ @extends('master.layout')
+@section('title')
+{{$post->title}}
+@endsection
+
+@section('style')
+<style>
+            html, body {
+                background-color: #111;
+                color: #636b6f;
+                
+            }
+</style>
+@endsection
+@section('script')
+<script>
+           
+</script>
+@endsection
+@section('content')
+<!-- photo et sent -->
+<div class="row my-4">
+      <div class="col-md-8">
+          <div class="row ">
+                        <div class="col-md-12 mb-2">
+                        <div class="card h-100 ">
+ <img src="{{asset('./uploads/'.$post->image) }}" class="card-img-top" >
+                              <div class="card-body">
+                                   <h5 class="card-title">{{$post['title'] }}</h5>
+                                       <p class="card-text">{{$post->body}}</p>
+                                </div>
+                                </div>
+                               @if(auth()->user()->id == $post->user_id || auth()->user()->is_admin)
+                               <a href="{{route('post.edit',$post->slug)}}" class="btn btn-warning"> Modifier</a>
+                    <form id="{{ $post->id}}" action="{{route('post.delete',$post->slug)}}" method="post">
+                               <input type="hidden" name="_token" value="{{ csrf_token() }}" />
+                               <input type="hidden" name="_method" value="DELETE">
+                               </form>
+                               <button 
+                               onclick="event.preventDefault();
+                               if(confirm('etre vous sur'))
+                               document.getElementById('{{ $post->id}}').submit();"
+                               class="btn btn-danger" type="submit">
+                                   Supprimer
+                               </button>
+                               
+                               @endif
+                         </div>
+                   
+             </div>
+            
+      </div>    
+    </div>
+@endsection
+
+
+
+
+
+
+<nav class="navbar navbar-expand-lg bg-light fixed-top">
+<div class="container-fluid">
+    <a class="navbar-brand" href=""> <img src="images/logo1.png" alt="Avatar Logo" style="width: 200px;"> </a>
+  </div>
+
+ 
+          <a class=" nav-link  active" aria-current="page" href="{{url('/')}}">ACCEUIL</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active"  href="{{route('orientation')}}">Orientation</a>
+      </li>
+        
+      @if(auth()->check())
+      <li class="nav-item">
+          <a class="nav-link active"  href="{{route('profile.show')}}">{{auth()->user()->name}}</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active"  href="{{route('post.create')}}">Ajouter</a>
+        </li>
+       
+      <li class="nav-item">
+          <a class="nav-link active"  href="{{route('cours')}}">Cours</a>
+      </li>
+      @else
+      <li class="nav-item">
+          <a class="nav-link active"  href="{{route('cours')}}">Cours</a>
+      </li>
+      
+      <li class="nav-item">
+          <a class="nav-link active"  href="{{url('/register')}}">Inscription</a>
+      </li>
+       <li class="nav-item">
+         <button> <a class="nav-link active"  href="{{url('/login')}}">Connexion</a></button>
+      </li>
+     </ul>
+      @endif
+    </div>
+  </div>
+</nav>
+<style>
+        @font-face{
+  font-family:"righteous";
+  src:url(fonts/Righteous-Regular.ttf);}
+  a{
+    font-family:righteous;
+    font-size:20pt;
+    color:red;
+  
+  }
+  button{
+    background-color:#3797db;
+    border:none;
+    border-radius: 20px;
+  }
+  
+  
+  </style>
+
+
+<x-jet-nav-link style="font-size:16pt;margin:10px;padding:10px;border-right:solid;" href="{{ route('orientation.create') }}" :active="request()->routeIs('admin.users.index')">
+                        {{ __('Ajouter orientation') }}
+                    </x-jet-nav-link>
+                   
+                    <x-jet-nav-link style="font-size:16pt;margin:10px;padding:10px;border-right:solid;" href="{{ route('cours.create') }}" :active="request()->routeIs('admin.users.index')">
+                        {{ __('Ajouter cours') }}
+                    </x-jet-nav-link>
+
+
+@font-face{
+    font-family:"righteous";
+    src:url(fonts/Righteous-Regular.ttf);
+}
+  a{
+      font-family:righteous;
+      font-size:18pt;
+      text-decoration:none;
+      color:#3797db;
+    
+    }
+  ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height:100px;
+    background-color:#f2f7ff;
+    
+  }
+  li{
+    display: inline;
+    padding-left:10px;
+  
+  }
+  .menu{
+    margin-left:700px;
+    
+  }
+  img{
+    float:left;
+   margin-top:10px;
+   margin-left:10px;
+  }
+  button{
+      background-color:#3797db;
+      border:none;
+      border-radius: 15px;
+      padding:10px;
+    }
+
+
+
+
+
+
+
+    <<<<<register>>>>>
+
+
+
+
+
+    <head>
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="css\mycustom.css">
+<script src="/js/app.js"></script>
+</head>
+
+@include('master.navbar')
+
+<body>
+<script>
+function Openform1(){
+  document.getElementById('form1').style.display = 'block';
+  document.getElementById('form2').style.display = 'none';
+}
+function Openform2(){
+  document.getElementById('form2').style.display = 'block';
+  document.getElementById('form1').style.display = 'none';
+}
+</script>
+
+
+
+<div class="w3-center" style="margin-top:250px;font-family: 'Righteous', cursive;font-size:40pt;" >
+
+<button    onclick ='Openform1();'style="margin:20px;">Professeur</button>
+<button  onclick ='Openform2();'style="margin:20px;">Etudiant</button>
+   
+</div>
+
+
+
+<div class="w3-center" style="margin-top:150px;margin-bottom:50px;">
+
+<div  id='form1'class="w3-container w3-center " 
+style="width:550px;background-color:#ccc2fc;margin-top:100px;margin-left:100px;display:none;">
+<img src="images/4119036.jpg" style="width:200px"> 
+
+
+  <x-guest-layout >
+    <x-jet-authentication-card    >
+        <x-slot name="" >
+            <x-jet-authentication-card-logo />
+        </x-slot>
+
+        <form class="w3-container" method="POST" action="{{ route('register') }}">
+            @csrf
+                <x-jet-label class="w3-text-indigo" style="margin-top:15px" for="name" value="{{ __('Name') }}" />
+                <x-jet-input id="name"  class="w3-input w3-border" style="margin-top:15px; background-color:#f2f7ff;" type="text" name="name" :value="old('name')" required autofocus autocomplete="name" />
+                
+                <x-jet-label class="w3-text-indigo" style="margin-top:15px" for="name" value="{{ __('Specialite') }}" />
+                <x-jet-input id="speciality"  class="w3-input w3-border" style="margin-top:15px; background-color:#f2f7ff;" type="text" name="name" :value="old('speciality')" required  />
+                
+                <x-jet-label class="w3-text-indigo" style="margin-top:15px" for="name" value="{{ __('N°PPR') }}" />
+                <x-jet-input id="N°PPR"  class="w3-input w3-border" style="margin-top:15px; background-color:#f2f7ff;" type="text" name="name" :value="old('N°PPR')" required autofocus  />
+            
+
+            
+                <x-jet-label class="w3-text-indigo"  style="margin-top:15px" for="email" value="{{ __('Email') }}" />
+                <x-jet-input id="email"  class="w3-input w3-border"  style="margin-top:15px; background-color:#f2f7ff;" type="email" name="email" :value="old('email')" required />
+            
+
+            
+                <x-jet-label  class="w3-text-indigo" style="margin-top:15px" for="password" value="{{ __('Password') }}" />
+                <x-jet-input id="password"  class="w3-input w3-border" style="margin-top:15px; background-color:#f2f7ff;"  type="password" name="password" required autocomplete="new-password" />
+            
+          
+
+            
+                <x-jet-label class="w3-text-indigo" style="margin-top:15px"  for="password_confirmation" value="{{ __('Confirm Password') }}" />
+                <x-jet-input id="password_confirmation"  class="w3-input w3-border"  style="margin-top:15px; background-color:#f2f7ff;" type="password" name="password_confirmation" required autocomplete="new-password" />
+  
+            @if (Laravel\Jetstream\Jetstream::hasTermsAndPrivacyPolicyFeature())
+                
+                    <x-jet-label class="w3-text-indigo"  style="margin-top:15px" for="terms">
+                        <div class="flex items-center">
+                            <x-jet-checkbox name="terms" id="terms"/>
+
+                            
+                                {!! __('I agree to the :terms_of_service and :privacy_policy', [
+                                        'terms_of_service' => '<a target="_blank" href="'.route('terms.show').'" class="underline text-sm text-gray-600 hover:text-gray-900">'.__('Terms of Service').'</a>',
+                                        'privacy_policy' => '<a target="_blank" href="'.route('policy.show').'" class="underline text-sm text-gray-600 hover:text-gray-900">'.__('Privacy Policy').'</a>',
+                                ]) !!}
+                            </div>
+                        
+                    </x-jet-label>
+                
+            @endif
+            <x-jet-validation-errors  class="erreur"/>
+
+            <div  style="margin-top:15px">
+                <a class="qs" href="{{ route('login') }}">
+                    {{ __('Already registered?') }}
+                </a>
+
+                <x-jet-button class="w3-btn w3-indigo"  style="margin-top:15px; float:right">
+                    {{ __('Register') }}
+                </x-jet-button>
+
+                
+            </div>
+        </form>
+    </x-jet-authentication-card>
+</x-guest-layout></div>
+ </form></div>
+
+
+
+
+   <div style="margin-top:150px;margin-bottom:50px;">
+
+   <div  id='form2'class="w3-container w3-center" 
+        style="width:550px;background-color:#ccc2fc;margin-top:100px;margin-left:100px;display:none;">
+    <img src="images/4542742.jpg" style="width:200px">
+   <x-guest-layout >
+    <x-jet-authentication-card >
+        <x-slot name="logo" >
+            <x-jet-authentication-card-logo />
+        </x-slot>
+
+    <div class="w3-container w3-round" style="height:50px; background-color:#f2f7ff; margin-top:20px;width:200px; margin-left:175px;">
+      <h5 class="w3-center" style="margin-top:15px;"></h5>
+    </div>
+  
+        <form class="w3-container" method="POST" action="{{ route('register') }}">
+            @csrf
+                <x-jet-label class="w3-text-indigo" style="margin-top:15px" for="name" value="{{ __('Name') }}" />
+                <x-jet-input id="name"  class="w3-input w3-border" style="margin-top:15px; background-color:#f2f7ff;" type="text" name="name" :value="old('name')" required autofocus autocomplete="name" />
+            
+               
+                <x-jet-label class="w3-text-indigo" style="margin-top:15px" for="etab" value="{{ __('Etablissement') }}" />
+                <x-jet-input id="etab"  class="w3-input w3-border" style="margin-top:15px; background-color:#f2f7ff;" type="text" name="etab" :value="old('etab')" required autofocus  />
+                
+                <x-jet-label class="w3-text-indigo" style="margin-top:15px" for="filiere" value="{{ __('Filiere') }}" />
+                <x-jet-input id="filiere"  class="w3-input w3-border" style="margin-top:15px; background-color:#f2f7ff;" type="text" name="filiere" :value="old('filiere')" required autofocus  />
+                
+                <x-jet-label class="w3-text-indigo" style="margin-top:15px" for="appo" value="{{ __('N° Appoge') }}" />
+                <x-jet-input id="appo"  class="w3-input w3-border" style="margin-top:15px; background-color:#f2f7ff;" type="text" name="appo" :value="old('appo')" required autofocus  />
+                
+                <x-jet-label class="w3-text-indigo"  style="margin-top:15px" for="email" value="{{ __('Email') }}" />
+                <x-jet-input id="email"  class="w3-input w3-border"  style="margin-top:15px; background-color:#f2f7ff;" type="email" name="email" :value="old('email')" required />
+            
+
+            
+                <x-jet-label  class="w3-text-indigo" style="margin-top:15px" for="password" value="{{ __('Password') }}" />
+                <x-jet-input id="password"  class="w3-input w3-border" style="margin-top:15px; background-color:#f2f7ff;"  type="password" name="password" required autocomplete="new-password" />
+            
+          
+
+            
+                <x-jet-label class="w3-text-indigo" style="margin-top:15px"  for="password_confirmation" value="{{ __('Confirm Password') }}" />
+                <x-jet-input id="password_confirmation"  class="w3-input w3-border"  style="margin-top:15px; background-color:#f2f7ff;" type="password" name="password_confirmation" required autocomplete="new-password" />
+   
+            @if (Laravel\Jetstream\Jetstream::hasTermsAndPrivacyPolicyFeature())
+                
+                    <x-jet-label class="w3-text-indigo"  style="margin-top:15px" for="terms">
+                        <div class="flex items-center">
+                            <x-jet-checkbox name="terms" id="terms"/>
+
+                            
+                                {!! __('I agree to the :terms_of_service and :privacy_policy', [
+                                        'terms_of_service' => '<a target="_blank" href="'.route('terms.show').'" class="underline text-sm text-gray-600 hover:text-gray-900">'.__('Terms of Service').'</a>',
+                                        'privacy_policy' => '<a target="_blank" href="'.route('policy.show').'" class="underline text-sm text-gray-600 hover:text-gray-900">'.__('Privacy Policy').'</a>',
+                                ]) !!}
+                            </div>
+                        
+                    </x-jet-label>
+                
+            @endif
+     <x-jet-validation-errors class="erreur" />
+            <div  style="margin-top:15px">
+                <a class="qs" href="{{ route('login') }}">
+                    {{ __('Already registered?') }}
+                </a>
+
+                <x-jet-button class="w3-btn w3-indigo"  style="margin-top:15px; float:right">
+                    {{ __('Register') }}
+                </x-jet-button>
+
+                
+            </div>
+        </form>
+    </x-jet-authentication-card>
+   </x-guest-layout></div>
+ </form></div>
+                                </body>
+
+
+
+
+
+
+<<<<<<<<<<<navugation-menu-blade>>>>>>>>
+<nav x-data="{ open: false }" class="bg-white border-b border-gray-100">
+    <!-- Primary Navigation Menu -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between h-16">
+            <div class="flex">
+                <!-- Logo -->
+                <div class="shrink-0 flex items-center">
+                    <a href="{{ route('home') }}">
+                        <x-jet-application-mark class="block h-9 w-auto" />
+                    </a>
+                </div>
+
+                <!-- Navigation Links -->
+                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                    <x-jet-nav-link href="{{ route('home') }}" :active="request()->routeIs('home')">
+                        {{ __('Accueil') }}
+                    </x-jet-nav-link>
+                </div>
+            </div>
+
+            <div class="hidden sm:flex sm:items-center sm:ml-6">
+                <!-- Teams Dropdown -->
+                @if (Laravel\Jetstream\Jetstream::hasTeamFeatures())
+                    <div class="ml-3 relative">
+                        <x-jet-dropdown align="right" width="60">
+                            <x-slot name="trigger">
+                                <span class="inline-flex rounded-md">
+                                    <button type="button" class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:bg-gray-50 hover:text-gray-700 focus:outline-none focus:bg-gray-50 active:bg-gray-50 transition">
+                                        {{ Auth::user()->currentTeam->name }}
+
+                                        <svg class="ml-2 -mr-0.5 h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                            <path fill-rule="evenodd" d="M10 3a1 1 0 01.707.293l3 3a1 1 0 01-1.414 1.414L10 5.414 7.707 7.707a1 1 0 01-1.414-1.414l3-3A1 1 0 0110 3zm-3.707 9.293a1 1 0 011.414 0L10 14.586l2.293-2.293a1 1 0 011.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clip-rule="evenodd" />
+                                        </svg>
+                                    </button>
+                                </span>
+                            </x-slot>
+
+                            <x-slot name="content">
+                                <div class="w-60">
+                                    <!-- Team Management -->
+                                    <div class="block px-4 py-2 text-xs text-gray-400">
+                                        {{ __('Manage Team') }}
+                                    </div>
+
+                                    <!-- Team Settings -->
+                                    <x-jet-dropdown-link href="{{ route('teams.show', Auth::user()->currentTeam->id) }}">
+                                        {{ __('Team Settings') }}
+                                    </x-jet-dropdown-link>
+
+                                    @can('create', Laravel\Jetstream\Jetstream::newTeamModel())
+                                        <x-jet-dropdown-link href="{{ route('teams.create') }}">
+                                            {{ __('Create New Team') }}
+                                        </x-jet-dropdown-link>
+                                    @endcan
+
+                                    <div class="border-t border-gray-100"></div>
+
+                                    <!-- Team Switcher -->
+                                    <div class="block px-4 py-2 text-xs text-gray-400">
+                                        {{ __('Switch Teams') }}
+                                    </div>
+
+                                    @foreach (Auth::user()->allTeams() as $team)
+                                        <x-jet-switchable-team :team="$team" />
+                                    @endforeach
+                                </div>
+                            </x-slot>
+                        </x-jet-dropdown>
+                    </div>
+                @endif
+
+                <!-- Settings Dropdown -->
+                <div class="ml-3 relative">
+                    <x-jet-dropdown align="right" width="48">
+                        <x-slot name="trigger">
+                            @if (Laravel\Jetstream\Jetstream::managesProfilePhotos())
+                                <button class="flex text-sm border-2 border-transparent rounded-full focus:outline-none focus:border-gray-300 transition">
+                                    <img class="h-8 w-8 rounded-full object-cover" src="{{ Auth::user()->profile_photo_path }}" alt="{{ Auth::user()->name }}" />
+                                </button>
+                            @else
+                                <span class="inline-flex rounded-md">
+                                    <button type="button" class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition">
+                                        {{ Auth::user()->name }}
+
+                                        <svg class="ml-2 -mr-0.5 h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                            <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                                        </svg>
+                                    </button>
+                                </span>
+                            @endif
+                        </x-slot>
+
+                        <x-slot name="content">
+                            <!-- Account Management -->
+                            <div class="block px-4 py-2 text-xs text-gray-400">
+                                {{ __('Manage Account') }}
+                            </div>
+
+                            <x-jet-dropdown-link href="{{ route('profile.show') }}">
+                                {{ __('Profile') }}
+                            </x-jet-dropdown-link>
+
+                            @if (Laravel\Jetstream\Jetstream::hasApiFeatures())
+                                <x-jet-dropdown-link href="{{ route('api-tokens.index') }}">
+                                    {{ __('API Tokens') }}
+                                </x-jet-dropdown-link>
+                            @endif
+
+                            <div class="border-t border-gray-100"></div>
+
+                            <!-- Authentication -->
+                            <form method="POST" action="{{ route('logout') }}" x-data>
+                                @csrf
+
+                                <x-jet-dropdown-link href="{{ route('logout') }}"
+                                         @click.prevent="$root.submit();">
+                                    {{ __('Log Out') }}
+                                </x-jet-dropdown-link>
+                            </form>
+                        </x-slot>
+                    </x-jet-dropdown>
+                </div>
+            </div>
+
+            <!-- Hamburger -->
+            <div class="-mr-2 flex items-center sm:hidden">
+                <button @click="open = ! open" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition">
+                    <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
+                        <path :class="{'hidden': open, 'inline-flex': ! open }" class="inline-flex" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                        <path :class="{'hidden': ! open, 'inline-flex': open }" class="hidden" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Responsive Navigation Menu -->
+    <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
+        <div class="pt-2 pb-3 space-y-1">
+            <x-jet-responsive-nav-link href="{{ route('home') }}" :active="request()->routeIs('home')">
+                {{ __('Accueil') }}
+            </x-jet-responsive-nav-link>
+        </div>
+
+        <!-- Responsive Settings Options -->
+        <div class="pt-4 pb-1 border-t border-gray-200">
+            <div class="flex items-center px-4">
+                @if (Laravel\Jetstream\Jetstream::managesProfilePhotos())
+                    <div class="shrink-0 mr-3">
+                        <img class="h-10 w-10 rounded-full object-cover" src="{{ Auth::user()->profile_photo_path }}" alt="{{ Auth::user()->name }}" />
+                    </div>
+                @endif
+
+                <div>
+                    <div class="font-medium text-base text-gray-800">{{ Auth::user()->name }}</div>
+                    <div class="font-medium text-sm text-gray-500">{{ Auth::user()->email }}</div>
+                </div>
+            </div>
+
+            <div class="mt-3 space-y-1">
+                <!-- Account Management -->
+                <x-jet-responsive-nav-link href="{{ route('profile.show') }}" :active="request()->routeIs('profile.show')">
+                    {{ __('Profile') }}
+                </x-jet-responsive-nav-link>
+
+                @if (Laravel\Jetstream\Jetstream::hasApiFeatures())
+                    <x-jet-responsive-nav-link href="{{ route('api-tokens.index') }}" :active="request()->routeIs('api-tokens.index')">
+                        {{ __('API Tokens') }}
+                    </x-jet-responsive-nav-link>
+                @endif
+
+                <!-- Authentication -->
+                <form method="POST" action="{{ route('logout') }}" x-data>
+                    @csrf
+
+                    <x-jet-responsive-nav-link href="{{ route('logout') }}"
+                                   @click.prevent="$root.submit();">
+                        {{ __('Log Out') }}
+                    </x-jet-responsive-nav-link>
+                </form>
+
+                <!-- Team Management -->
+                @if (Laravel\Jetstream\Jetstream::hasTeamFeatures())
+                    <div class="border-t border-gray-200"></div>
+
+                    <div class="block px-4 py-2 text-xs text-gray-400">
+                        {{ __('Manage Team') }}
+                    </div>
+
+                    <!-- Team Settings -->
+                    <x-jet-responsive-nav-link href="{{ route('teams.show', Auth::user()->currentTeam->id) }}" :active="request()->routeIs('teams.show')">
+                        {{ __('Team Settings') }}
+                    </x-jet-responsive-nav-link>
+
+                    @can('create', Laravel\Jetstream\Jetstream::newTeamModel())
+                        <x-jet-responsive-nav-link href="{{ route('teams.create') }}" :active="request()->routeIs('teams.create')">
+                            {{ __('Create New Team') }}
+                        </x-jet-responsive-nav-link>
+                    @endcan
+
+                    <div class="border-t border-gray-200"></div>
+
+                    <!-- Team Switcher -->
+                    <div class="block px-4 py-2 text-xs text-gray-400">
+                        {{ __('Switch Teams') }}
+                    </div>
+
+                    @foreach (Auth::user()->allTeams() as $team)
+                        <x-jet-switchable-team :team="$team" component="jet-responsive-nav-link" />
+                    @endforeach
+                @endif
+            </div>
+        </div>
+    </div>
+</nav>
+
+
+
+
+
+
+
+
+   <<<<<<<<<<<<<<showblade>>>>>>>>
+
+
+
+<head>
+<meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+    </head>
+    <body>
+
+<x-app-layout>
+
+    <div>
+        <div class="max-w-7xl mx-auto py-10 sm:px-6 lg:px-8">
+        <table class="table-auto">
+
+  <!-- component -->
+<div class="container mx-auto px-4 sm:px-8">
+    <div class="py-8">
+        <div>
+            <h2 class="text-2xl font-semibold leading-tight">Mes posts</h2>
+        </div>
+        <div class="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto">
+            <div class="inline-block min-w-full shadow rounded-lg overflow-hidden">
+                <table class="min-w-full leading-normal">
+                    <thead>
+                        <tr>
+                            <th
+                                class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-center text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                Titre
+                            </th>
+                            <th
+                                class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-center text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                Discription
+                            </th>
+                            <th
+                                class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-center text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                               
+                            </th>
+                            
+                        </tr>
+                    </thead>
+                    <tbody>
+                    @foreach(auth()->user()->posts()->withTrashed()->get() as $post)
+                        <tr>
+                                       <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm w-2/5">
+                            {{$post->title }}  
+                            </td>
+                           
+                                             <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm w-2/5">
+                            {{Str::limit($post->body,500)}} 
+                            </td>
+                       
+                            <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm w-2/5">
+                            <a href="{{route('post.edit',$post->slug)}}" class="iinline-flex bg-indigo-600 text-black rounded-full h-6 px-3 justify-center items-center text-"> Modifier</a>
+                            
+                  @if($post->trashed())
+                  <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm w-2/5">
+                            <a href="{{route('post.restore',$post->slug)}}" class="iinline-flex bg-indigo-600 text-black rounded-full h-6 px-3 justify-center items-center text-"> Recupere</a>
+                            
+                  <form id="{{ $post->id}}" action="{{route('post.destroy',$post->slug)}}" method="post">
+                               <input type="hidden" name="_token" value="{{ csrf_token() }}" />
+                               <input type="hidden" name="_method" value="DELETE">
+                               </form>
+                  @else
+                  <form id="{{ $post->id}}" action="{{route('post.delete',$post->slug)}}" method="post">
+                               <input type="hidden" name="_token" value="{{ csrf_token() }}" />
+                               <input type="hidden" name="_method" value="DELETE">
+                               </form>
+                  @endif
+                               <button 
+                               onclick="event.preventDefault();
+                               if(confirm('etre vous sur'))
+                               document.getElementById('{{ $post->id}}').submit();"
+                               class="inline-flex bg-red-600 text-black rounded-full h-6 px-3 justify-center items-center" type="submit">
+                                @if($post->trashed())
+                               Supprimer definitivement
+                               @else
+                               Supprimer
+                               @endif
+                               </button>
+                                
+                            </td>
+                            
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+</table>
+            @if (Laravel\Fortify\Features::canUpdateProfileInformation())
+                @livewire('profile.update-profile-information-form')
+
+                <x-jet-section-border />
+            @endif
+
+            @if (Laravel\Fortify\Features::enabled(Laravel\Fortify\Features::updatePasswords()))
+                <div class="mt-10 sm:mt-0">
+                    @livewire('profile.update-password-form')
+                </div>
+
+                <x-jet-section-border />
+            @endif
+
+            @if (Laravel\Fortify\Features::canManageTwoFactorAuthentication())
+                <div class="mt-10 sm:mt-0">
+                    @livewire('profile.two-factor-authentication-form')
+                </div>
+
+                <x-jet-section-border />
+            @endif
+
+            <div class="mt-10 sm:mt-0">
+                @livewire('profile.logout-other-browser-sessions-form')
+            </div>
+
+            @if (Laravel\Jetstream\Jetstream::hasAccountDeletionFeatures())
+                <x-jet-section-border />
+
+                <div class="mt-10 sm:mt-0">
+                    @livewire('profile.delete-user-form')
+                </div>
+            @endif
+        </div>
+    </div>
+</x-app-layout>
+</body>
+
+
+<<<<<<<<<<<<<orientation>>>>>>>>>>>>
+@extends('master.layout')
+@section('title')
+ACCUEIL
+@endsection
+
+@section('style')
+<style>
+            html, body {
+                background-color: #111;
+                color: #636b6f;
+                
+            }
+</style>
+@endsection
+@section('script')
+<script>
+           
+</script>
+@endsection
+@section('content')
+<!-- photo et sent -->
+<div class="row my-4">
+      <div class="col-md-8">
+          @if(session()->has('success'))
+          <div class="alert alert-success">
+              {{session()->get('success')}}
+          </div>
+          @endif
+          <div class="row ">
+                  @foreach($posts as $post)
+                        <div class="col-md-4 mb-2">
+                        <div class="card h-100 ">
+ <img src="{{asset('./uploads/'.$post->image) }}" class="card-img-top" alt="...">
+                              <div class="card-body">
+                                   <h5 class="card-title">{{$post['title'] }}</h5>
+                                   <h6 class="card-title">{{$post->user ? $post->user->name : Null}}</h6>
+                                       <p class="card-text">{{Str::limit($post->body,50) }}</p>
+                                     <a href="{{route('post.show',$post->slug)}}" class="btn btn-primary">Go </a>
+                                </div>
+                                </div>
+                         </div>
+                    @endforeach
+             </div>
+             <div class="d-flex justify-content-center my-4">
+             {{ $posts->links() }}
+             </div>
+      </div>    
+    </div>
+   
+@endsection
+
+
+<<< profile show.blade>>>>
+
+
+
+
+/*
+                    <tbody>
+                    @foreach(auth()->user()->posts()->withTrashed()->get() as $post)
+                        <tr>
+                                       <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm w-2/5">
+                            {{$post->title }}  
+                            </td>
+                           
+                                             <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm w-2/5">
+                            {{Str::limit($post->description,500)}} 
+                            </td>
+                       
+                            <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm w-2/5">
+                            <a href="{{route('post.edit',$post->slug)}}" class="iinline-flex bg-indigo-600 text-black rounded-full h-6 px-3 justify-center items-center text-"> Modifier</a>
+                             
+                  @if($post->trashed())
+                  <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm w-2/5">
+                            <a href="{{route('.restore',$post->slug)}}" class="iinline-flex bg-indigo-600 text-black rounded-full h-6 px-3 justify-center items-center text-"> Recupere</a>
+                            
+                  <form id="{{ $post->id}}" action="{{route('post.destroy',$post->slug)}}" method="post">
+                               <input type="hidden" name="_token" value="{{ csrf_token() }}" />
+                               <input type="hidden" name="_method" value="DELETE">
+                               </form>
+                  @else
+                  <form id="{{ $post->id}}" action="{{route('post.delete',$post->slug)}}" method="post">
+                               <input type="hidden" name="_token" value="{{ csrf_token() }}" />
+                               <input type="hidden" name="_method" value="DELETE">
+                               </form>
+                  @endif
+                               <button 
+                               onclick="event.preventDefault();
+                               if(confirm('etre vous sur'))
+                               document.getElementById('{{ $post->id}}').submit();"
+                               class="inline-flex bg-red-600 text-black rounded-full h-6 px-3 justify-center items-center" type="submit">
+                                @if($post->trashed())
+                               Supprimer definitivement
+                               @else
+                               Supprimer
+                               @endif
+                               </button>
+                                
+                            </td>
+                            
+                        </tr>
+                        @endforeach
+                    </tbody> */
